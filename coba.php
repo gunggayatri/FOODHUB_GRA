@@ -34,12 +34,6 @@
       box-shadow: 0 4px 10px rgba(0,0,0,0.2);
     }
 
-    .search-box h2 {
-      color: black;
-      font-weight: bold;
-    }
-    
-
     .form-control {
       border-radius: 30px 0 0 30px;
       border-right: none;
@@ -79,12 +73,22 @@
       border-radius: 10px;
       box-shadow: 0 2px 6px rgba(0,0,0,0.1);
       overflow: hidden;
+      text-decoration: none;
+      color: inherit;
     }
 
     .kategori-card h5 {
       padding: 10px 0;
       margin: 0;
       font-weight: bold;
+    }
+
+    .makanan-card {
+      background: white;
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 15px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     }
   </style>
 </head>
@@ -113,18 +117,45 @@
       $result = $con->query("SELECT * FROM kategori");
       while($row = $result->fetch_assoc()) {
           $nama = $row['nama_kategori'];
-          $img = strtolower($nama) . ".jpg"; // Sesuai contoh: makanan.jpg
+          $img = strtolower($nama) . ".jpg";
+          $id = $row['id_kategori'];
           echo "
           <div class='col-6 col-md-3'>
-            <div class='card kategori-card text-center'>
+            <a href='index.php?kategori=$id' class='card kategori-card text-center'>
               <img src='img/kategori/$img' class='card-img-top' alt='$nama'>
               <h5>$nama</h5>
-            </div>
+            </a>
           </div>";
       }
     ?>
   </div>
 </div>
+
+<!-- Makanan berdasarkan Kategori -->
+<?php if (isset($_GET['kategori'])): ?>
+<div class="container mt-4">
+  <h4>Daftar Makanan</h4>
+  <div class="row">
+    <?php
+      $id_kategori = intval($_GET['kategori']);
+      $makanan = $con->query("SELECT * FROM produk WHERE id_kategori = $id_kategori");
+      if ($makanan->num_rows > 0) {
+        while ($row = $makanan->fetch_assoc()) {
+          echo "
+          <div class='col-md-4'>
+            <div class='makanan-card'>
+              <h5>{$row['nama_makanan']}</h5>
+              <p>Rp " . number_format($row['harga'], 0, ',', '.') . "</p>
+            </div>
+          </div>";
+        }
+      } else {
+        echo "<p>Tidak ada makanan dalam kategori ini.</p>";
+      }
+    ?>
+  </div>
+</div>
+<?php endif; ?>
 
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
