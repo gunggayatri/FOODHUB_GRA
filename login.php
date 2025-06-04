@@ -6,18 +6,45 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Form Sign In</title>
 
-    <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/sign-in/">
+    <!-- Bootstrap-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- sesuaikan file javascript -->
     <script src="asset/js/color-modes.js"></script>
-    <!-- sesuaikan file css -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet">
+     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Custom styles for this template -->
-    <!--<link href="sign-in.css" rel="stylesheet">-->
-    <Link href="stylecoba.css" rel="stylesheet"></Link>
+  <style>
+.label {
+    font-weight: bold;
+    display: block;
+    text-align: left;
+}
+.register-link-login {
+    margin-top: 10px;
+    display: block;
+    text-align: center;
+}
+body {
+    background-color: #A5A94C; 
+    font-family: Arial, sans-serif;
+    text-align: center;
+    }
+.btn {
+    background-color:  #6c710b; /* Warna tombol */
+    color: white;
+    font-weight: bold;
+    border-radius: 5px;
+    padding: 8px 15px;
+    border: none;
+}
+.btn:hover {
+    background-color: #c4c963; /* Warna saat hover */
+}
+.ms-auto {
+    margin-left: auto;
+}
+  </style>
 </head>
-
-<body class="d-flex align-items-center py-4 bg-body-tertiary">
+<body class="d-flex align-items-center py-4 ">
     <main class="form-signin w-25 m-auto">
         <?php
         if (isset($_GET['pesan'])) { ?>
@@ -25,9 +52,10 @@
                 <!--cek pesan notifikasi -->
                 <?php
                 if ($_GET['pesan'] == "gagal") {
-                    echo "Login gagal! username dan password salah!";
+                    echo "Login gagal! email dan password salah!";
                 } else if ($_GET['pesan'] == "logout") {
-                    echo "Anda telah berhasil logout";
+                    echo "Anda telah berhasil logout <br>";
+                    echo '<a href="index.php">Kembali ke Halaman Utama</a>';
                 } else if ($_GET['pesan'] == "belum_login") {
                     echo "Anda harus login untuk mengakses halaman admin";
                 }
@@ -38,21 +66,20 @@
         }
         ?>
         <form method="POST" action="cek_login.php">
-        <img class="mb-4 img-bulat rounded-circle" src="image/gambarlogo..jpg" alt="img-bulat" width="72" height="72">
-
-            <h1 class="h3 mb-3 fw-normal text-primary">Please sign in</h1>
+            <img class="mb-4" src="asset/brand/person-fill.svg" alt="" width="72" height="57">
+            <h1 class="h3 mb-3 fw-normal text-dark">Please sign in</h1>
             <div class="form-floating">
                 <!-- perhatikan name harus sama pada file cek_login.php -->
-                <input type="text" class="form-control bg-white text-dark" id="floatingInput" placeholder="Input username" name="username" >
-                <label for="floatingInput" class="text-dark">Username</label>
+                <input type="text" class="form-control bg-dark" id="floatingemail" placeholder="Input email" name="email">
+                <label for="floatingemail">Email</label>
             </div>
             <div class="form-floating">
                 <!-- perhatikan name harus sama pada file cek_login.php -->
-                <input type="password" class="form-control bg-white text-dark" id="floatingPassword" placeholder="Password" name="password">
-                <label for="floatingPassword" class="text-dark">Password</label>
+                <input type="password" class="form-control bg-dark" id="floatingPassword" placeholder="Password" name="password">
+                <label for="floatingPassword">Password</label>
             </div>
 
-            <button class="btn btn-primary w-100 py-2 mt-2" type="submit">Login</button>
+            <button class="btn w-100 py-2 mt-2" type="submit">Login</button>
 
         </form>
     </main>

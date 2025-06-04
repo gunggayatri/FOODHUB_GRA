@@ -90,6 +90,9 @@
       margin-bottom: 15px;
       box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     }
+
+    
+
   </style>
 </head>
 <body>
@@ -121,7 +124,7 @@
           $id = $row['id_kategori'];
           echo "
           <div class='col-6 col-md-3'>
-            <a href='index.php?kategori=$id' class='card kategori-card text-center'>
+            <a href='produk.php?kategori=$id' class='card kategori-card text-center'>
               <img src='img/kategori/$img' class='card-img-top' alt='$nama'>
               <h5>$nama</h5>
             </a>
@@ -131,31 +134,7 @@
   </div>
 </div>
 
-<!-- Makanan berdasarkan Kategori -->
-<?php if (isset($_GET['kategori'])): ?>
-<div class="container mt-4">
-  <h4>Daftar Makanan</h4>
-  <div class="row">
-    <?php
-      $id_kategori = intval($_GET['kategori']);
-      $makanan = $con->query("SELECT * FROM produk WHERE id_kategori = $id_kategori");
-      if ($makanan->num_rows > 0) {
-        while ($row = $makanan->fetch_assoc()) {
-          echo "
-          <div class='col-md-4'>
-            <div class='makanan-card'>
-              <h5>{$row['nama_makanan']}</h5>
-              <p>Rp " . number_format($row['harga'], 0, ',', '.') . "</p>
-            </div>
-          </div>";
-        }
-      } else {
-        echo "<p>Tidak ada makanan dalam kategori ini.</p>";
-      }
-    ?>
-  </div>
-</div>
-<?php endif; ?>
+
 
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
