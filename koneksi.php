@@ -8,9 +8,9 @@ $db_name = "foodhub"; //nama database
 $con = mysqli_connect($db_hostname, $db_username, $db_password, $db_name);
 
 // Check connection
-if (mysqli_connect_errno()) {
-       echo "Koneksi database gagal : " . mysqli_connect_error();
-}else {
- echo "Koneksi Berhasil";
- }
+//if (mysqli_connect_errno()) {
+ //      echo "Koneksi database gagal : " . mysqli_connect_error();
+//}else {
+ //echo "Koneksi Berhasil";
+ //}
 ?>

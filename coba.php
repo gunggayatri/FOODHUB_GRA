@@ -21,6 +21,7 @@
       background-size: cover;
       min-height: 350px;
       position: relative;
+      
     }
 
     .search-box {

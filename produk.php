@@ -19,16 +19,37 @@ include 'koneksi.php';
       font-family: 'Arial', sans-serif;
       margin: 0;
       padding: 0;
+      
     }
 
     .produk-container {
-      padding: 30px;
+      padding: 40px;
+      padding-top: 0;
     }
+
+ .kategori-banner {
+  width: 100vw;          /* Lebar penuh viewport */
+  margin-left: calc(-50vw + 50%); /* Hilangkan padding container */
+  overflow: hidden;
+  
+}
+
+.kategori-banner img {
+  width: 100%;
+  height: 300px;          /* Atur tinggi persegi panjang */
+  object-fit: cover;      /* Gambar terisi penuh tanpa gepeng */
+  display: block;
+  position: relative;
+   padding-top: 0; 
+}
+
+
+
 
     .produk-judul {
       text-align: center;
       color: white;
-      font-size: 30px;
+      font-size: 50px;
       font-weight: bold;
       margin-bottom: 30px;
     }
@@ -80,16 +101,28 @@ include 'koneksi.php';
 
   </style>
 </head>
-<body>
+<body class="m-0 p-0">
+
 
 <div class="container produk-container">
   <?php
     if (isset($_GET['kategori'])) {
       $id_kategori = intval($_GET['kategori']);
 
-      // Ambil nama kategori untuk judul
-      $kategori = $con->query("SELECT nama_kategori FROM kategori WHERE id_kategori = $id_kategori")->fetch_assoc();
-      echo "<div class='produk-judul'>" . strtoupper($kategori['nama_kategori']) . "</div>";
+    $kategori = $con->query("SELECT nama_kategori FROM kategori WHERE id_kategori = $id_kategori")->fetch_assoc();
+    $nama_kategori = $kategori['nama_kategori'];
+    $img = strtolower(str_replace(' ', '_', $nama_kategori)) . ".jpg";
+
+echo "
+  <div class='kategori-banner'>
+    <img src='img/kategori/$img' alt='$nama_kategori'>
+  </div>
+  <div class='produk-judul'>
+    " . strtoupper($nama_kategori) . "
+  </div>
+";
+
+
 
       $result = $con->query("SELECT * FROM produk WHERE id_kategori = $id_kategori");
 
