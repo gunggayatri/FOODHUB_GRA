@@ -112,7 +112,7 @@ session_start();
 
     <!-- Right Section -->
     <div class="col-md-6 p-0">
-      <img src="img/steak.jpg" alt="Delicious Dish" class="food-image">
+      <img src="img/salad2.jpeg" alt="Delicious Dish" class="food-image">
     </div>
   </div>
 </div>

@@ -98,6 +98,8 @@
 </head>
 <body>
 
+<?php include 'navigasi.php'; ?>
+
 <!-- Header / Hero -->
 <div class="header">
   <div class="search-box">

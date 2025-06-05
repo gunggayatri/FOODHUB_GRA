@@ -42,6 +42,9 @@ body {
 .ms-auto {
     margin-left: auto;
 }
+.mb-4{
+    border-radius: 50%;
+}
   </style>
 </head>
 <body class="d-flex align-items-center py-4 ">
@@ -66,7 +69,7 @@ body {
         }
         ?>
         <form method="POST" action="cek_login.php">
-            <img class="mb-4" src="asset/brand/person-fill.svg" alt="" width="72" height="57">
+            <img class="mb-4" src="img/logo/logo.jpg" alt="" width="72" height="72">
             <h1 class="h3 mb-3 fw-normal text-dark">Please sign in</h1>
             <div class="form-floating">
                 <!-- perhatikan name harus sama pada file cek_login.php -->
