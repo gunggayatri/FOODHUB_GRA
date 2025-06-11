@@ -97,9 +97,6 @@ $info = $con->query("SELECT * FROM `orders` WHERE id_order = $id_order")->fetch_
       Total Bayar: Rp <?= number_format($total, 0, ',', '.') ?>
     </div>
 
-    <a href="invoice.php?order_id=<?= $id_order ?>" class="btn btn-kembali">Cetak Invoice</a>
-
-
     <a href="produk.php" class="btn btn-kembali">Kembali Belanja</a>
   </div>
 </body>

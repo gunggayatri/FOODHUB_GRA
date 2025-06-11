@@ -1,3 +1,5 @@
+<?php if (session_status() == PHP_SESSION_NONE) session_start(); ?>
+
 
 <!-- Navigasi Minimalis 3 Icon -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
@@ -62,30 +64,46 @@
     .nav-bar { padding: 10px 10px; }
     .nav-menu { left: 10px; min-width: 140px; }
   }
-  body { padding-top: 80px; }
+
+  /* Perbaikan scroll body */
+  body {
+    margin: 0;
+    padding-top: 80px;
+    overflow-y: auto;
+  }
 </style>
+
+<!-- Navigasi -->
 <div class="nav-fixed">
   <div class="nav-bar">
-    <!-- Icon Menu -->
     <div>
       <i class="bi bi-list" id="menuToggle" style="cursor:pointer;"></i>
     </div>
-    <!-- Icon Keranjang & Akun -->
     <div class="nav-icons">
       <a href="keranjang.php" aria-label="Keranjang"><i class="bi bi-cart3"></i></a>
-      <a href="akun.php" aria-label="Akun"><i class="bi bi-person-circle"></i></a>
+      <a href="logout.php" aria-label="Akun"><i class="bi bi-person-circle"></i></a>
     </div>
   </div>
-  <!-- Menu Dropdown (hanya muncul saat klik icon menu) -->
+
+  <!-- Menu Dropdown -->
   <div class="nav-menu" id="menuDropdown">
     <a href="halamandepan.php">Halaman Depan</a>
     <a href="produk.php">Produk</a>
     <a href="kategori.php">Kategori</a>
-    <a href="riwayat_invoice.php">Riwayat Invoice</a>
-    <a href="input_kategori.php">input_kategori</a>
-    <a href="input_produk.php">Input Produk</a>
+
+    <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'ADMIN'): ?>
+      <a href="riwayat_invoice.php">Riwayat Invoice</a>
+      <a href="input_kategori.php">Input Kategori</a>
+      <a href="input_produk.php">Input Produk</a>
+      
+    <?php else: ?>
+      <a href="keranjang.php">Keranjang Saya</a>
+      <a href="riwayat_invoice.php">Pesanan Saya</a>
+      
+    <?php endif; ?>
   </div>
 </div>
+
 <script>
   const menuToggle = document.getElementById('menuToggle');
   const menuDropdown = document.getElementById('menuDropdown');

@@ -11,15 +11,15 @@ $query = mysqli_query($con, "SELECT * FROM user WHERE email = '$email'");
 $user = mysqli_fetch_assoc($query);
 
 if ($user) {
-    // Verifikasi password yang diinput dengan yang di-hash di database
-    if (password_verify($password, $user['password'])) {
+    // Bandingkan password langsung TANPA hash
+    if ($password === $user['password']) {
         // Login sukses, set session
         $_SESSION['email'] = $user['email'];
         $_SESSION['role'] = $user['role'];
 
         // Redirect sesuai role
         if ($user['role'] == 'ADMIN') {
-            header("Location: Dasbord_admin.php");
+            header("Location: kategori.php");
             exit();
         } elseif ($user['role'] == 'CUSTOMER') {
             header("Location: kategori.php");
