@@ -1,5 +1,8 @@
 <?php
 include 'koneksi.php';
+
+// Tambahkan margin-top pada body agar tidak tertutup navigasi
+echo "<style>body { margin-top: 70px !important; }</style>";
 ?>
 
 <!DOCTYPE html>
@@ -105,7 +108,12 @@ while ($row = $result->fetch_assoc()) {
   TOTAL (TERMASUK PAJAK): Rp <?= number_format($total, 0, ',', '.') ?>
 </div>
 
-<button class="btn-pesan mt-3">Pesan</button>
+<form action="proses_pesan.php" method="POST">
+  <button type="submit" class="btn-pesan mt-3">Pesan Sekarang</button>
+</form>
+
+
+
 
 </body>
 </html>

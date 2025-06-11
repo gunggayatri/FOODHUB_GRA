@@ -1,100 +1,99 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Nav Minimal + Style</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
-  <style>
-   .hero {
-  position: relative;
-  padding: 10px 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: transparent; /* tanpa background */
-}
 
-.menu-toggle {
-  font-size: 24px;
-  cursor: pointer;
-  color: white; /* ikon putih */
-}
-
-.top-icons {
-  display: flex;
-  gap: 15px;
-  font-size: 22px;
-}
-
-/* Warna putih untuk semua ikon dalam top-icons */
-.top-icons i,
-.top-icons a {
-  color: white;  /* ikon putih */
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-}
-
-.top-icons a:hover,
-.top-icons i:hover {
-  color: #ccc; /* warna hover terang */
-}
-
-.nav-links {
-  margin-top: 10px;
-  padding: 0 20px;
-  display: none;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.nav-links a {
-  text-decoration: none;
-  color: white;  /* teks putih */
-  font-weight: 500;
-}
-
-.nav-links a:hover {
-  text-decoration: underline;
-}
-
-  </style>
-</head>
-<body>
-
-<div class="hero">
-  <!-- Tombol toggle menu -->
-  <div class="menu-toggle">
-    <i class="bi bi-list" id="toggleIcon"></i>
+<!-- Navigasi Minimalis 3 Icon -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+<style>
+  .nav-fixed {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 1000;
+    background: transparent;
+    padding: 0;
+  }
+  .nav-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 20px;
+    background: rgba(108,121,80,0.95);
+    border-bottom-left-radius: 1rem;
+    border-bottom-right-radius: 1rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  }
+  .nav-icons {
+    display: flex;
+    gap: 18px;
+    font-size: 1.7rem;
+  }
+  .nav-icons a, .nav-icons i {
+    color: #fff;
+    text-decoration: none;
+    transition: color 0.2s;
+    display: flex;
+    align-items: center;
+  }
+  .nav-icons a:hover, .nav-icons i:hover {
+    color: #d6d6d6;
+  }
+  .nav-menu {
+    display: none;
+    position: absolute;
+    top: 56px;
+    left: 20px;
+    background: #fff;
+    border-radius: 0.7rem;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+    min-width: 170px;
+    padding: 10px 0;
+    z-index: 1100;
+  }
+  .nav-menu a {
+    display: block;
+    padding: 10px 22px;
+    color: #6c7950;
+    text-decoration: none;
+    font-weight: 500;
+    border-radius: 0.4rem;
+    transition: background 0.2s;
+  }
+  .nav-menu a:hover {
+    background: #f5f5f5;
+  }
+  @media (max-width: 600px) {
+    .nav-bar { padding: 10px 10px; }
+    .nav-menu { left: 10px; min-width: 140px; }
+  }
+  body { padding-top: 80px; }
+</style>
+<div class="nav-fixed">
+  <div class="nav-bar">
+    <!-- Icon Menu -->
+    <div>
+      <i class="bi bi-list" id="menuToggle" style="cursor:pointer;"></i>
+    </div>
+    <!-- Icon Keranjang & Akun -->
+    <div class="nav-icons">
+      <a href="keranjang.php" aria-label="Keranjang"><i class="bi bi-cart3"></i></a>
+      <a href="akun.php" aria-label="Akun"><i class="bi bi-person-circle"></i></a>
+    </div>
   </div>
-
-  <!-- Icon di kanan atas -->
-  <div class="top-icons" id="topIcons">
-    <a href="keranjang.php" aria-label="Keranjang Belanja">
-      <i class="bi bi-cart3"></i>
-    </a>
-    <i class="bi bi-person-circle" title="Akun"></i>
+  <!-- Menu Dropdown (hanya muncul saat klik icon menu) -->
+  <div class="nav-menu" id="menuDropdown">
+    <a href="halamandepan.php">Halaman Depan</a>
+    <a href="produk.php">Produk</a>
+    <a href="kategori.php">Kategori</a>
+    <a href="riwayat_invoice.php">Riwayat Invoice</a>
+    <a href="input_kategori.php">input_kategori</a>
+    <a href="input_produk.php">Input Produk</a>
   </div>
 </div>
-
-<!-- Link navigasi -->
-<div class="nav-links" id="navLinks">
-  <a href="halamandepan.php">Halaman Depan</a>
-  <a href="kategori.php">Kategori</a>
-  <a href="produk.php">Produk</a>
-  <!-- Tambahkan link lainnya di sini -->
-</div>
-
 <script>
-  const toggleIcon = document.getElementById('toggleIcon');
-  const navLinks = document.getElementById('navLinks');
-
-  toggleIcon.addEventListener('click', () => {
-    const isVisible = navLinks.style.display === 'flex';
-    navLinks.style.display = isVisible ? 'none' : 'flex';
+  const menuToggle = document.getElementById('menuToggle');
+  const menuDropdown = document.getElementById('menuDropdown');
+  document.addEventListener('click', function(e) {
+    if (menuToggle.contains(e.target)) {
+      menuDropdown.style.display = menuDropdown.style.display === 'block' ? 'none' : 'block';
+    } else if (!menuDropdown.contains(e.target)) {
+      menuDropdown.style.display = 'none';
+    }
   });
 </script>
-
-</body>
-</html>
