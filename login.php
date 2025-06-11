@@ -45,6 +45,14 @@ body {
 .mb-4{
     border-radius: 50%;
 }
+.register-link-register a {
+      color:rgb(42, 42, 182);
+      text-decoration: underline;
+    }
+.register-link-register {
+      margin-top: 10px;
+      color: #212529;
+    }
   </style>
 </head>
 <body class="d-flex align-items-center py-4 ">
@@ -83,6 +91,10 @@ body {
             </div>
 
             <button class="btn w-100 py-2 mt-2" type="submit">Login</button>
+           
+            <div class="register-link-register">
+        Sudah register? <a href="register.php">Register di sini</a>
+      </div>
 
         </form>
     </main>

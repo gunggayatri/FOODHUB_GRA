@@ -2,29 +2,40 @@
 session_start();
 include 'koneksi.php';
 
-$email = $_POST['email'];
-$password = $_POST['password'];
+// Ambil data dari form login
+$email = $_POST['email'] ?? '';
+$password = $_POST['password'] ?? '';
 
-$data = mysqli_query($con, "SELECT * FROM user WHERE email='$email' AND password='$password'");
-$cek = mysqli_num_rows($data);
+// Cek apakah user dengan email tersebut ada
+$query = mysqli_query($con, "SELECT * FROM user WHERE email = '$email'");
+$user = mysqli_fetch_assoc($query);
 
-if ($cek > 0) {
-    $user = mysqli_fetch_assoc($data);
-    $_SESSION['email'] = $user['email'];
-    $_SESSION['role'] = $user['role'];
+if ($user) {
+    // Verifikasi password yang diinput dengan yang di-hash di database
+    if (password_verify($password, $user['password'])) {
+        // Login sukses, set session
+        $_SESSION['email'] = $user['email'];
+        $_SESSION['role'] = $user['role'];
 
-    if ($user['role'] == 'ADMIN') {
-        header("Location: Dasbord_admin.php");
-        exit();
-    } else if ($user['role'] == 'CUSTOMER') {
-        header("Location: Dasbord_customer.php");
-        exit();
+        // Redirect sesuai role
+        if ($user['role'] == 'ADMIN') {
+            header("Location: Dasbord_admin.php");
+            exit();
+        } elseif ($user['role'] == 'CUSTOMER') {
+            header("Location: kategori.php");
+            exit();
+        } else {
+            header("Location: login.php?pesan=role_invalid");
+            exit();
+        }
     } else {
-        header("Location: login.php?pesan=role_invalid");
+        // Password salah
+        header("Location: login.php?pesan=password_salah");
         exit();
     }
 } else {
-    header("location:login.php?pesan=gagal");
+    // Email tidak ditemukan
+    header("Location: login.php?pesan=email_tidak_ditemukan");
     exit();
 }
 ?>
