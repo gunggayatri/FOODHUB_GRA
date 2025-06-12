@@ -25,7 +25,6 @@ include 'koneksi.php';
       padding: 40px;
       padding-top: 70px;
     }
-    
 
     .kategori-banner {
       width: 100vw;
@@ -38,8 +37,6 @@ include 'koneksi.php';
       height: 300px;
       object-fit: cover;
       display: block;
-      position: relative;
-      padding-top: 0;
     }
 
     .produk-judul {
@@ -98,10 +95,7 @@ include 'koneksi.php';
 </head>
 <body class="m-0 p-0">
 
-
 <?php include 'navigasi.php'; ?>
-
- 
 
 <div class="container produk-container">
 <?php
@@ -135,7 +129,19 @@ include 'koneksi.php';
       $nama = $row['nama_produk'];
       $deskripsi = $row['deskripsi'];
       $harga = number_format($row['harga'], 0, ',', '.');
-      $img = strtolower(str_replace(' ', '_', $nama)) . ".jpg";
+
+      // Penentuan gambar
+      $img = $row['gambar'];
+
+      // Jika kolom gambar kosong atau file tidak ada, generate dari nama produk
+      if (!$img || !file_exists("img/produk/$img")) {
+        $guess = strtolower(str_replace(' ', '_', $nama)) . ".jpg";
+        if (file_exists("img/produk/$guess")) {
+          $img = $guess;
+        } else {
+          $img = "default.jpg"; // fallback jika tidak ditemukan
+        }
+      }
 
       echo "
         <div class='col-6 col-md-4 col-lg-3'>
