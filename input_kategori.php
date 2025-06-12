@@ -1,4 +1,3 @@
-
 <?php
 include 'koneksi.php';
 ?>
@@ -38,11 +37,18 @@ include 'koneksi.php';
         <h4 class="mb-0 text-success fw-bold">INPUT KATEGORI</h4>
       </div>
       <div class="card-body">
-        <form method="POST" action="proses_input_kategori.php">
+        <!-- Tambahkan enctype untuk upload file -->
+        <form method="POST" action="proses_input_kategori.php" enctype="multipart/form-data">
           <div class="mb-3">
             <label for="nama_kategori" class="form-label">Nama Kategori</label>
             <input type="text" class="form-control" id="nama_kategori" name="nama_kategori" required>
           </div>
+
+          <div class="mb-3">
+            <label for="gambar" class="form-label">Gambar Kategori</label>
+            <input type="file" class="form-control" id="gambar" name="gambar" accept="image/*" required>
+          </div>
+
           <button type="submit" class="btn btn-success w-100">Simpan Kategori</button>
         </form>
       </div>

@@ -120,20 +120,33 @@
 <div class="container kategori-container">
   <div class="row justify-content-center g-4">
     <?php
-      $result = $con->query("SELECT * FROM kategori");
-      while($row = $result->fetch_assoc()) {
-          $nama = $row['nama_kategori'];
-          $img = strtolower($nama) . ".jpg";
-          $id = $row['id_kategori'];
-          echo "
-          <div class='col-6 col-md-3'>
-            <a href='produk.php?kategori=$id' class='card kategori-card text-center'>
-              <img src='img/kategori/$img' class='card-img-top' alt='$nama'>
-              <h5>$nama</h5>
-            </a>
-          </div>";
+  $result = $con->query("SELECT * FROM kategori");
+  while($row = $result->fetch_assoc()) {
+      $nama = $row['nama_kategori'];
+      $id = $row['id_kategori'];
+
+      // Siapkan nama file dasar
+      $baseName = strtolower(preg_replace('/[^a-z0-9]/i', '_', $nama));
+
+      // Coba cek file dengan ekstensi .jpg atau .png
+      if (file_exists("img/kategori/$baseName.jpg")) {
+          $img = "$baseName.jpg";
+      } elseif (file_exists("img/kategori/$baseName.png")) {
+          $img = "$baseName.png";
+      } else {
+          $img = "default.jpg";
       }
-    ?>
+
+      echo "
+      <div class='col-6 col-md-3'>
+        <a href='produk.php?kategori=$id' class='card kategori-card text-center'>
+          <img src='img/kategori/$img' class='card-img-top' alt='$nama'>
+          <h5>$nama</h5>
+        </a>
+      </div>";
+  }
+?>
+
   </div>
 </div>
 

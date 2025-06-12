@@ -2,7 +2,17 @@
 session_start();
 include 'koneksi.php';
 
-// Ambil semua pesanan dari database
+// Update status jika form dikirim
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['id_order'], $_POST['status_order'])) {
+    $id_order = intval($_POST['id_order']);
+    $status_order = $_POST['status_order'];
+
+    $stmt = $con->prepare("UPDATE orders SET status_order = ? WHERE id_order = ?");
+    $stmt->bind_param("si", $status_order, $id_order);
+    $stmt->execute();
+}
+
+// Ambil semua pesanan
 $result = $con->query("SELECT * FROM orders ORDER BY tanggal_order DESC");
 ?>
 
@@ -14,7 +24,7 @@ $result = $con->query("SELECT * FROM orders ORDER BY tanggal_order DESC");
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
     body {
-      background-color: #e7f0b6;
+      background-color: #a5b55f;
       padding: 40px;
       font-family: Arial, sans-serif;
     }
@@ -39,6 +49,26 @@ $result = $con->query("SELECT * FROM orders ORDER BY tanggal_order DESC");
     .btn-invoice:hover {
       background: #388e3c;
     }
+    .form-status {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+    select {
+      font-size: 0.9rem;
+      padding: 4px;
+    }
+    .btn-simpan {
+      background-color: #ff9800;
+      color: white;
+      border: none;
+      padding: 4px 10px;
+      font-size: 0.9rem;
+      border-radius: 5px;
+    }
+    .btn-simpan:hover {
+      background-color: #fb8c00;
+    }
   </style>
 </head>
 <body>
@@ -55,6 +85,7 @@ $result = $con->query("SELECT * FROM orders ORDER BY tanggal_order DESC");
           <th>Tanggal</th>
           <th>Status</th>
           <th>Invoice</th>
+          <th>update status</th>
         </tr>
       </thead>
       <tbody>
@@ -69,11 +100,26 @@ $result = $con->query("SELECT * FROM orders ORDER BY tanggal_order DESC");
               <td>
                 <a href="invoice.php?order_id=<?= $row['id_order'] ?>" class="btn btn-invoice" target="_blank">Cetak Invoice</a>
               </td>
+              <td>
+                <form method="POST" class="form-status">
+                  <input type="hidden" name="id_order" value="<?= $row['id_order'] ?>">
+                  <select name="status_order" required>
+                    <?php
+                      $statuses = ['MENUNGGU', 'SELESAI', 'DIBATALKAN'];
+                      foreach ($statuses as $status) {
+                        $selected = $row['status_order'] == $status ? 'selected' : '';
+                        echo "<option value='$status' $selected>$status</option>";
+                      }
+                    ?>
+                  </select>
+                  <button type="submit" class="btn-simpan">Simpan</button>
+                </form>
+              </td>
             </tr>
           <?php endwhile; ?>
         <?php else: ?>
           <tr>
-            <td colspan="5" class="text-center">Belum ada pesanan.</td>
+            <td colspan="6" class="text-center">Belum ada pesanan.</td>
           </tr>
         <?php endif; ?>
       </tbody>

@@ -89,18 +89,18 @@
   <!-- Menu Dropdown -->
   <div class="nav-menu" id="menuDropdown">
     <a href="halamandepan.php">Halaman Depan</a>
-    <a href="produk.php">Produk</a>
-    <a href="kategori.php">Kategori</a>
+    
 
     <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'ADMIN'): ?>
       <a href="riwayat_invoice.php">Riwayat Invoice</a>
-      <a href="input_kategori.php">Input Kategori</a>
-      <a href="input_produk.php">Input Produk</a>
+      <a href="kategori_admin.php">Kategori</a>
+      <a href="produk_admin.php">Produk</a>
+      
       
     <?php else: ?>
       <a href="keranjang.php">Keranjang Saya</a>
-      <a href="riwayat_invoice.php">Pesanan Saya</a>
-      
+      <a href="produk.php">Produk</a>
+    <a href="kategori.php">Kategori</a>
     <?php endif; ?>
   </div>
 </div>

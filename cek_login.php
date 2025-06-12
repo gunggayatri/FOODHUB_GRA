@@ -19,7 +19,7 @@ if ($user) {
 
         // Redirect sesuai role
         if ($user['role'] == 'ADMIN') {
-            header("Location: kategori.php");
+            header("Location: kategori_admin.php");
             exit();
         } elseif ($user['role'] == 'CUSTOMER') {
             header("Location: kategori.php");
