@@ -67,7 +67,7 @@
 
      <!-- Ganti form-floating jadi input biasa -->
       <div class="mb-2">
-        <input type="text" class="form-control bg-dark text-light" placeholder="Nama Lengkap" name="nama" required>
+        <input type="text" class="form-control bg-dark text-light" placeholder="Nama Lengkap" name="username" required>
       </div>
       <div class="mb-2">
         <input type="email" class="form-control bg-dark text-light" placeholder="Email" name="email" required>

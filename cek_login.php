@@ -11,8 +11,8 @@ $query = mysqli_query($con, "SELECT * FROM user WHERE email = '$email'");
 $user = mysqli_fetch_assoc($query);
 
 if ($user) {
-    // Bandingkan password langsung TANPA hash
-    if ($password === $user['password']) {
+    // Verifikasi password yang diinput dengan yang di-hash di database
+    if (password_verify($password, $user['password'])) {
         // Login sukses, set session
         $_SESSION['email'] = $user['email'];
         $_SESSION['role'] = $user['role'];
@@ -38,4 +38,4 @@ if ($user) {
     header("Location: login.php?pesan=email_tidak_ditemukan");
     exit();
 }
-?>
+?> 

@@ -81,7 +81,8 @@
     </div>
     <div class="nav-icons">
       <a href="keranjang.php" aria-label="Keranjang"><i class="bi bi-cart3"></i></a>
-      <a href="logout.php" aria-label="Akun"><i class="bi bi-person-circle"></i></a>
+      <a href="logout.php" aria-label="Logout"><i class="bi bi-box-arrow-right"></i></a>
+
     </div>
   </div>
 
