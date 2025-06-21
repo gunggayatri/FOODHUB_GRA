@@ -80,9 +80,12 @@
       <i class="bi bi-list" id="menuToggle" style="cursor:pointer;"></i>
     </div>
     <div class="nav-icons">
+       <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'CUSTOMER'): ?>
       <a href="keranjang.php" aria-label="Keranjang"><i class="bi bi-cart3"></i></a>
       <a href="logout.php" aria-label="Logout"><i class="bi bi-box-arrow-right"></i></a>
-
+       <?php else: ?>
+      <a href="logout.php" aria-label="Logout"><i class="bi bi-box-arrow-right"></i></a>
+        <?php endif; ?>
     </div>
   </div>
 
