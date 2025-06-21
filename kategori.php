@@ -14,6 +14,7 @@
     body {
       font-family: Arial, sans-serif;
       background-color: #b5bf5d;
+      
     }
 
     .header {
@@ -21,6 +22,8 @@
       background-size: cover;
       min-height: 350px;
       position: relative;
+      
+
       
     }
 
@@ -101,20 +104,11 @@
 <?php include 'navigasi.php'; ?>
 
 <!-- Header / Hero -->
+<!-- Header / Hero -->
 <div class="header">
-  <div class="search-box">
-    <h4 style="font-weight: normal; font-size: 20px;">LAPER?</h4>
-    <h2>mau makan apa hari ini?</h2>
-    <br><br>
-    <form class="d-flex my-2">
-      <input type="text" class="form-control" placeholder="Telusuri Makanan">
-      <button class="btn btn-outline-secondary" type="submit">
-        <i class="bi bi-search"></i>
-      </button>
-    </form>
-    <button class="button">Pesan Sekarang</button>
-  </div>
+  <!-- Search box dihapus, gambar tetap tampil -->
 </div>
+
 
 <!-- Kategori -->
 <div class="container kategori-container">

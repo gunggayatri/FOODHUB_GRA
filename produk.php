@@ -1,7 +1,4 @@
-<?php
-include 'koneksi.php';
-?>
-
+<?php include 'koneksi.php'; ?>
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -21,22 +18,53 @@ include 'koneksi.php';
       padding: 0;
     }
 
+    .header {
+      background: url('img/salad.jpeg') no-repeat center center;
+      background-size: cover;
+      min-height: 400px;
+      position: relative;
+    }
+
+    .search-box {
+      background-color: white;
+      padding: 20px;
+      width: 270px;
+      border-radius: 10px;
+      position: absolute;
+      top: 95px;
+      left: 30px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+
+
+    .form-control {
+      border-radius: 30px 0 0 30px;
+      border-right: none;
+    }
+
+    .btn-outline-secondary {
+      border-radius: 0 30px 30px 0;
+      border-left: none;
+    }
+
+    .button {
+      background-color: #20B050;
+      color: white;
+      font-weight: bold;
+      border: none;
+      padding: 10px 30px;
+      border-radius: 8px;
+      margin-top: 10px;
+      width: 100%;
+    }
+
+    .button:hover {
+      background-color: #178a3d;
+    }
+
     .produk-container {
       padding: 40px;
       padding-top: 70px;
-    }
-
-    .kategori-banner {
-      width: 100vw;
-      margin-left: calc(-50vw + 50%);
-      overflow: hidden;
-    }
-
-    .kategori-banner img {
-      width: 100%;
-      height: 300px;
-      object-fit: cover;
-      display: block;
     }
 
     .produk-judul {
@@ -97,76 +125,86 @@ include 'koneksi.php';
 
 <?php include 'navigasi.php'; ?>
 
+<!-- Header -->
+<div class="header">
+  <div class="search-box">
+    <h4 style="font-weight: normal; font-size: 20px;">LAGI LAPAR?</h4>
+    <h2>Cari Produk</h2>
+    <br><br>
+
+    <!-- Wrapper grid untuk pencarian + tombol -->
+    <div class="d-grid gap-2">
+      <form class="d-flex" method="GET" action="produk.php">
+        <input type="text" name="search" class="form-control" placeholder="Cari nama, deskripsi, kategori..." value="<?php echo isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''; ?>">
+        <button class="btn btn-outline-secondary" type="submit">
+          <i class="bi bi-search"></i>
+        </button>
+      </form>
+
+      <!-- Tombol lihat semua -->
+      <a href="produk.php" class="btn btn-success w-100">Lihat Semua</a>
+    </div>
+  </div>
+</div>
+
+</div>
+
+
+<!-- Kontainer Produk -->
 <div class="container produk-container">
-<?php
-  if (isset($_GET['kategori'])) {
-    // Produk berdasarkan kategori
-    $id_kategori = intval($_GET['kategori']);
-    $kategori = $con->query("SELECT nama_kategori FROM kategori WHERE id_kategori = $id_kategori")->fetch_assoc();
-    $nama_kategori = $kategori['nama_kategori'];
-    $img = strtolower(str_replace(' ', '_', $nama_kategori)) . ".jpg";
-
-    echo "
-      <div class='kategori-banner'>
-        <img src='img/kategori/$img' alt='$nama_kategori'>
-      </div>
-      <div class='produk-judul'>
-        " . strtoupper($nama_kategori) . "
-      </div>
-    ";
-
-    $result = $con->query("SELECT * FROM produk WHERE id_kategori = $id_kategori");
-  } else {
-    // Semua produk
-    echo "<div class='produk-judul'>SEMUA PRODUK</div>";
-    $result = $con->query("SELECT * FROM produk");
-  }
-
-  // Tampilkan produk
-  if ($result->num_rows > 0) {
-    echo "<div class='row g-4'>";
-    while ($row = $result->fetch_assoc()) {
-      $nama = $row['nama_produk'];
-      $deskripsi = $row['deskripsi'];
-      $harga = number_format($row['harga'], 0, ',', '.');
-
-      // Penentuan gambar
-      $img = $row['gambar'];
-
-      // Jika kolom gambar kosong atau file tidak ada, generate dari nama produk
-      if (!$img || !file_exists("img/produk/$img")) {
-        $guess = strtolower(str_replace(' ', '_', $nama)) . ".jpg";
-        if (file_exists("img/produk/$guess")) {
-          $img = $guess;
-        } else {
-          $img = "default.jpg"; // fallback jika tidak ditemukan
-        }
-      }
-
-      echo "
-        <div class='col-6 col-md-4 col-lg-3'>
-          <div class='card card-produk'>
-            <a href='detail_produk.php?id=" . $row['id_produk'] . "' class='text-decoration-none text-dark'>
-              <img src='img/produk/$img' alt='$nama'>
-              <div class='card-body text-center'>
-                <h5>$nama</h5>
-                <p class='text-muted small'>$deskripsi</p>
-                <p>Rp $harga</p>
-              </div>
-            </a>
-            <form method='POST' action='tambah_keranjang.php' class='text-center mb-2'>
-              <input type='hidden' name='id_produk' value='" . $row['id_produk'] . "'>
-              <button type='submit' class='btn btn-plus'>+</button>
-            </form>
-          </div>
-        </div>
-      ";
+  <?php
+    $query = "SELECT p.*, k.nama_kategori FROM produk p LEFT JOIN kategori k ON p.id_kategori = k.id_kategori";
+    
+    if (isset($_GET['search'])) {
+      $keyword = $con->real_escape_string($_GET['search']);
+      $query .= " WHERE p.nama_produk LIKE '%$keyword%' 
+                  OR p.deskripsi LIKE '%$keyword%' 
+                  OR k.nama_kategori LIKE '%$keyword%'";
     }
-    echo "</div>";
-  } else {
-    echo "<p class='text-center text-white'>Tidak ada produk yang tersedia.</p>";
-  }
-?>
+
+    $result = $con->query($query);
+
+    if ($result && $result->num_rows > 0) {
+      echo "<div class='row g-4'>";
+      while ($row = $result->fetch_assoc()) {
+        $nama = $row['nama_produk'];
+        $deskripsi = $row['deskripsi'];
+        $harga = number_format($row['harga'], 0, ',', '.');
+        $img = $row['gambar'];
+
+        if (!$img || !file_exists("img/produk/$img")) {
+          $guess = strtolower(str_replace(' ', '_', $nama)) . ".jpg";
+          if (file_exists("img/produk/$guess")) {
+            $img = $guess;
+          } else {
+            $img = "default.jpg";
+          }
+        }
+
+        echo "
+          <div class='col-6 col-md-4 col-lg-3'>
+            <div class='card card-produk'>
+              <a href='detail_produk.php?id=" . $row['id_produk'] . "' class='text-decoration-none text-dark'>
+                <img src='img/produk/$img' alt='$nama'>
+                <div class='card-body text-center'>
+                  <h5>$nama</h5>
+                  <p class='text-muted small'>$deskripsi</p>
+                  <p>Rp $harga</p>
+                </div>
+              </a>
+              <form method='POST' action='tambah_keranjang.php' class='text-center mb-2'>
+                <input type='hidden' name='id_produk' value='" . $row['id_produk'] . "'>
+                <button type='submit' class='btn btn-plus'>+</button>
+              </form>
+            </div>
+          </div>
+        ";
+      }
+      echo "</div>";
+    } else {
+      echo "<p class='text-center text-white'>Produk tidak ditemukan.</p>";
+    }
+  ?>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
